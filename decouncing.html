@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hey there</h1>
+    <script>
+        function debouncing(fn,delay,obj){
+            let timerId;
+            let flag=true;
+            return function(...args){
+                clearTimeout(timerId);
+                if(flag===true && obj.leading===true){
+                    fn();
+                    flag=false;
+                }
+                timerId=setTimeout(()=>{
+                    if(obj.trailing===true){
+                         fn();
+                    }
+                      flag=true;
+
+                },delay)
+            }
+        }
+        function callback(){
+            console.log("resized the window");
+        }
+        const debounceResize=debouncing(callback,3000,{leading:true,trailing:true});
+        window.addEventListener('resize',debounceResize)
+
+       
+    </script>
+</body>
+</html>

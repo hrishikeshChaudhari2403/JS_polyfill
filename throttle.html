@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="height: 3000px">
+
+    <h1>Hey there</h1>
+    <script>
+
+        // window.addEventListener('scroll',()=>{
+        //     console.log("Hey there")
+        // })
+
+        function throttle(fn,delay,obj){
+            let lastCall=0;
+            let flag=true;
+            return function(...args){
+                let now=Date.now();
+                if(flag===true && obj.leading===true){
+                    console.log("leading")
+                    fn();
+                    // now=Date.now();
+                    flag=false;
+                }
+                if(now-lastCall > delay){
+                    lastCall=now;
+                    if(obj.trailing===true){
+                        console.log("trailing")
+                        fn();
+                    }
+                    flag=true;
+                }
+
+            }
+        }
+        function callback(){
+            // console.log("Hey there",window.scrollY)
+        }
+        const throttleScroll= throttle(callback,2000,{leading:true,trailing:false});
+         window.addEventListener('resize',throttleScroll)
+    </script>
+</body>
+</html>
