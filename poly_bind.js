@@ -1,56 +1,27 @@
-function abc(value){
-    const p = new Promise((res, rej) => {
-        if(value === 2){
-            res(value);
-        }        
-        else{
-            rej("hey");
-        }
-    })
-    return p;
-
-    //  return new Promise((resolve, reject) => {
-    //     setTimeout(() => {
-    //         if (value > 0) {
-    //             resolve({ id: value, name: "John Doe" });
-    //         } else {
-    //             reject("Invalid user ID");
-    //         }
-    //     }, 1000);
-    // });
+function abc(){
+    console.log("Hey "+this.name)
 }
-
-function *asyncawait(value){
-  
-    console.log("a");
-    let inp = yield; 
-    let res = yield value(inp);  
-    console.log(res);
-    console.log("B");
+const obj={
+    name:"Hrishikesh"
 }
-
-const it = asyncawait(abc);
-it.next();
-function run(it, inp){
-    // console.log(inp)
-    
-    const k = it.next(inp);
-    if(k.done){
-        return;
-    }
-    else{
-        // console.log(k);
-        Promise.resolve(k.value).then((res) => {
-            console.log(k.value)
-            run(it, res);
-        })
-        .catch((err) => {
-            console.log("Error:", err);
-            run(it,err)
-
-        })
+ 
+ 
+Function.prototype.myBind = function(...args){
+    let fun = this;
+    let obj = args[0];
+    let args1 = args.slice(1);
+    return function boundFn(...args2){
+        // const isNew = this instanceof boundFn;
+        fun.apply(obj,[ ...args1, ...args2]);
+//          fun.apply(
+//     isNew ? this : obj,
+//     args
+//   );
     }
 }
-
-
-run(it, 3);
+ 
+const b=abc.myBind(obj);
+b();
+console.log(b)
+const k=new b();
+console.log(k)
